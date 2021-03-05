@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
 using SimpleFeedReader.Services;
 using SimpleFeedReader.ViewModels;
 
@@ -13,12 +12,10 @@ namespace SimpleFeedReader.Pages
     public class IndexModel : PageModel
     {
         private readonly NewsService _newsService;
-        private readonly IConfiguration _configuration;  
-   
-        public IndexModel(NewsService newsService, IConfiguration configuration)
+
+        public IndexModel(NewsService newsService)
         {
             _newsService = newsService;
-            _configuration = configuration;
         }
 
         public string ErrorText { get; private set; }
@@ -27,7 +24,6 @@ namespace SimpleFeedReader.Pages
 
         public async Task OnGet()
         {
-            ViewData["Header"] = _configuration.GetValue<string>("UI:Index:Header");
             string feedUrl = Request.Query["feedurl"];
 
             if (!string.IsNullOrEmpty(feedUrl))

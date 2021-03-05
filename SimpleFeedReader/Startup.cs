@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SimpleFeedReader.Services;
 
 namespace SimpleFeedReader
@@ -21,10 +21,10 @@ namespace SimpleFeedReader
         {
             services.AddScoped<NewsService>();
             services.AddAutoMapper();
-            services.AddRazorPages();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -36,13 +36,7 @@ namespace SimpleFeedReader
             }
 
             app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            });
+            app.UseMvc();
         }
     }
 }
